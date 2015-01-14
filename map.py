@@ -25,10 +25,11 @@ class Board:
 #    resolution =  # Holds a tuple with the resolution of the main screen object
 
     def __init__(self, screen, boardSize):
+        colors = Colors()
         self.screen = screen
         self.boardSize = boardSize
         self.resolution = screen.get_size()
-        self.lineColor = (0, 0, 128)    # dark blue
+        self.lineColor = colors.blue()    # dark blue
         self.widthSegment = self.resolution[0] / self.boardSize
         self.heightSegment = self.resolution[1] / self.boardSize
         print self.widthSegment
