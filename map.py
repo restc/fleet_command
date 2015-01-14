@@ -2,42 +2,65 @@ import sys
 import pygame
 
 pygame.init()
-displayResolution = (640, 480)
+displayResolution = (1366, 768)
 screen = pygame.display.set_mode(displayResolution)
 
 class Colors:
     def dark_blue(self):
-        darkBlue = (0,0,128)
-        return darkBlue
+        return (0, 0, 128)
 
+    def blue(self):
+        return (0, 0, 255)
+
+    def black(self):
+        return (0, 0, 0)
+
+    def white(self):
+        return (255, 255, 255)
 
 class Board:
+#    boardSize # Board size, eventually this will be an option on start.
+                  # Small: 8x8x8 (512 sectors), Medium: 10x10x10 (1000 sectors), or Huge: 12x12x12 (1728 sectors)
+#    screen =  # Holds the screen object to draw upon
+#    resolution =  # Holds a tuple with the resolution of the main screen object
 
-    boardSize = 8
-    lineColor = (0,0,128)
-    screen = None
-
-    def __init__(self, screen):
+    def __init__(self, screen, boardSize):
         self.screen = screen
+        self.boardSize = boardSize
+        self.resolution = screen.get_size()
+        self.lineColor = (0, 0, 128)    # dark blue
+        self.widthSegment = self.resolution[0] / self.boardSize
+        self.heightSegment = self.resolution[1] / self.boardSize
+        print self.widthSegment
+        print self.heightSegment
 
-    def draw_verticals(self):
-        for point in range(self.boardSize):
-            pygame.draw.lines(self.screen, self.lineColor, [(point,100), (screen.max(),100)], 1)
+    def draw(self):
+        self.draw_verticals()
+        self.draw_horizontals()
+        pygame.display.update()
 
     def draw_horizontals(self):
-        for point in range(self.boardSize):
-            pygame.draw.lines(self.screen, self.lineColor, [(0,point), (100,screen.max())], 1)
+        for point in range(0, self.boardSize):
+            pygame.draw.lines(self.screen, self.lineColor, False, [(point * self.widthSegment, self.resolution[0]), (point * self.widthSegment, self.resolution[0])], 3)
 
-    def segment_size(self):
-        return self.screen / self.boardSize
+    def draw_verticals(self):
+        for point in range(0, self.boardSize):
+            pygame.draw.lines(self.screen, self.lineColor, False, [(point * self.heightSegment, self.resolution[1]), (point * self.heightSegment, self.resolution[1])], 3)
+
+    def segment_size(self, plane):
+        return self.screen.get_width() if (plane == 0) else self.screen.get_height()
 
 
+board = Board(screen, 8)
+board.draw()
 
-pygame.display.update()
-board = Board(screen)
-board.draw_horizontals()
-pygame.display.update()
-print board.segment_size()
+
+# Loop to keep window open until game closed
+running = True
+while running:
+  for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+      running = False
 
 
 # pygame draw rect

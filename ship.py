@@ -3,17 +3,15 @@ import sys
 
 class Ship:
 
-    kind = "ship"
-    hullHealth = 100
-
     def __init__(self, kind):
         self.kind = kind
+        self.hullHealth = 100
 
-    def healHull(amountHealed):
-        if hullHealth + amountHealed > 100:
+    def healHull(self, heal):
+        if hullHealth + heal > 100:
             hullHealth = 100
         else:
-            hullHealth = hullHealth + amountHealed
+            hullHealth = hullHealth + heal
 
     def damageHull(self, damage):
         hullHealth = hullHealth - damage
@@ -22,9 +20,24 @@ class Ship:
         else:
             return hullHealth
 
-
-    def ship_sunk():
+    def ship_sunk(self):
         return self.kind + " has been eliminated."
+
+    def canMove(self):
+        False
+
+    def info(self):
+        print "Kind: {0}".format(self.kind)
+        print "Hull Health: {0}".format(self.hullHealth)
+
+
+class Weapon:
+
+    def __init__(self, kind):
+        self.kind = kind
+
+    def damage(self, amount):
+        self.damage = damage
 
 
 s = Ship("Battleship")
